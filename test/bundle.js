@@ -132,27 +132,20 @@ var quotes = [{
   'quote': 'The Force is strong with this one.'
 }];
 
-/*
 var ListItemWrapper = React.createClass({
-  render: function() {
-    return <li>{this.props.data.text}</li>;
-  }
-});
+  displayName: 'ListItemWrapper',
 
-var MyComponent = React.createClass({
-  render: function() {
-    return (
-      <ul>
-        {this.props.results.map(function(result) {
-           return <ListItemWrapper key={result.id} data={result}/>;
-        })}
-      </ul>
+  render: function () {
+    return React.createElement(
+      'button',
+      { onClick: this.onClickHandler },
+      this.props.data.author
     );
+  },
+  onClickHandler: function () {
+    afficherQuote(this.props.data.author);
   }
 });
-
-
-*/
 
 var QuotesList = React.createClass({
   displayName: 'QuotesList',
@@ -161,43 +154,26 @@ var QuotesList = React.createClass({
     return React.createElement(
       'ul',
       null,
-      quotes.map(function (item) {
-        return React.createElement(
-          'li',
-          { key: item.id },
-          item.author
-        );
+      quotes.map(function (result) {
+        return React.createElement(ListItemWrapper, { key: result.id, data: result });
       })
     );
   }
 });
 
-var GenerateQuoteRandom = React.createClass({
-  displayName: 'GenerateQuoteRandom',
-
-
-  getInitialState: function () {
-    return {
-      name: ["blabla", "blan", "test"]
-    };
-  },
-  random: function (min, max) {
-    var n = Math.random() * (max - min) + 1;
-    return n;
-  },
-  render: function () {
-    return React.createElement(
-      'div',
-      null,
-      React.createElement(
-        'h3',
-        null,
-        'TODO'
-      ),
-      React.createElement(QuotesList, { items: this.state.items })
-    );
+function afficherQuote(author) {
+  console.log(author);
+  var quote = "";
+  for (var i = 0; i < quotes.length; ++i) {
+    if (quotes[i].author === author) {
+      quote = quotes[i].quote;
+      break;
+    }
   }
-});
+
+  console.log(quote);
+  ReactDOM.render(React.createElement('h1', null, quote), document.getElementById('quote'));
+}
 
 ReactDOM.render(React.createElement(QuotesList, null), document.getElementById('example'));
 

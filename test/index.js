@@ -40,15 +40,18 @@ var quotes = [{
 
 var ListItemWrapper = React.createClass({
   render: function() {
-    return <li>{this.props.data.text}</li>;
+    return <button onClick={this.onClickHandler}>{this.props.data.author}</button>;
+  },
+  onClickHandler: function(){
+	  afficherQuote(this.props.data.author);
   }
 });
 
-var MyComponent = React.createClass({
+var QuotesList = React.createClass({
   render: function() {
     return (
       <ul>
-        {this.props.results.map(function(result) {
+        {quotes.map(function(result) {
            return <ListItemWrapper key={result.id} data={result}/>;
         })}
       </ul>
@@ -56,19 +59,22 @@ var MyComponent = React.createClass({
   }
 });
 
-var QuotesList = React.createClass({
-  render: function(){
-    return (
-      <ul>
-      {
-        quotes.map(function(item) {
-          return <li key={item.id}>{item.author}</li>
-        })
-       }
-      </ul>
-    )  
-  }
-});
+function afficherQuote(author){
+	console.log(author)
+	var quote= "";
+	for(var i=0; i < quotes.length; ++i){
+		if(quotes[i].author === author){
+			quote = quotes[i].quote;
+			break;
+		}
+	}
+	
+	console.log(quote)
+	ReactDOM.render(
+	  React.createElement('h1',null, quote),
+	  document.getElementById('quote')
+	);
+}
 
 
 ReactDOM.render(<QuotesList/>,document.getElementById('example')
