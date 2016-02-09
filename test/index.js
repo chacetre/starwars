@@ -1,4 +1,6 @@
 'use strict';
+var React = require('react');
+var ReactDOM = require('react-dom');
 
 var quotes = [{
   'author': '- Yoda',
@@ -34,3 +36,40 @@ var quotes = [{
   'author': '- Darth Vader',
   'quote': 'The Force is strong with this one.'
 }];
+
+
+var ListItemWrapper = React.createClass({
+  render: function() {
+    return <li>{this.props.data.text}</li>;
+  }
+});
+
+var MyComponent = React.createClass({
+  render: function() {
+    return (
+      <ul>
+        {this.props.results.map(function(result) {
+           return <ListItemWrapper key={result.id} data={result}/>;
+        })}
+      </ul>
+    );
+  }
+});
+
+var QuotesList = React.createClass({
+  render: function(){
+    return (
+      <ul>
+      {
+        quotes.map(function(item) {
+          return <li key={item.id}>{item.author}</li>
+        })
+       }
+      </ul>
+    )  
+  }
+});
+
+
+ReactDOM.render(<QuotesList/>,document.getElementById('example')
+);
